@@ -4,12 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", sans-serif;
+            background-color: var(--tg-theme-bg-color, #f2f2f2);
+            color: var(--tg-theme-text-color, #000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #main {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        img {
+            width: 150px;
+            height: auto;
+            margin: 15px 0;
+        }
+
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0077b6;
+        }
+    </style>
 </head>
 <body>
     <div id="main">
-        <h1>Shop</h1>
-        <img src="hot-dog_1f32d.png">
-        <p>This is the best hot dog, buy NOW!</p>
+        <h1>🌭 Hot Dog Shop</h1>
+        <img src="hot-dog_1f32d.png" alt="Hot Dog">
+        <p>This is the best hot dog, buy <strong>NOW</strong>!</p>
         <button id="buy">Buy</button>
     </div>
 </body>
