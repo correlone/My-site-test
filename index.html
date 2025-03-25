@@ -112,53 +112,53 @@
     <button type="submit" id="order">Order now</button>
   </form>
 
-  <script>
-    let tg = window.Telegram.WebApp;
-    let buy = document.getElementById('buy');
-    let order = document.getElementById('order');
-    let form = document.getElementById('form'); // ← додано!
-  
-    tg.expand();
-  
-    buy.addEventListener('click', () => {
-      document.getElementById('main').style.display = "none";
-      form.style.display = "block";
-      document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
-    });
-  
-    form.addEventListener('submit', (event) => {
-      event.preventDefault(); // обов'язково!
-  
-      const name = document.getElementById('user_name').value.trim();
-      const email = document.getElementById('user_email').value.trim();
-      const phone = document.getElementById('user_phone').value.trim();
-      const errorDiv = document.getElementById('error');
-  
-      errorDiv.innerText = '';
-      errorDiv.style.display = 'none';
-  
-      if (name.length < 5) {
-        errorDiv.innerText = 'Error in name';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      if (email.length < 5) {
-        errorDiv.innerText = 'Error in email';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      if (phone.length < 5) {
-        errorDiv.innerText = 'Error in phone';
-        errorDiv.style.display = 'block';
-        return;
-      }
-  
-      const data = { name, email, phone };
-      console.log("Дані відправляються:", data);
-      tg.sendData(JSON.stringify(data));
-      tg.close();
-    });
-  </script>
+ <script>
+  let tg = window.Telegram.WebApp;
+  let buy = document.getElementById('buy');
+  let form = document.getElementById('form'); // ✅ треба було оголосити
+  tg.expand();
+
+  buy.addEventListener('click', () => {
+    document.getElementById('main').style.display = "none";
+    form.style.display = "block";
+    document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault(); // ⛔ зупиняє стандартне оновлення сторінки
+
+    const name = document.getElementById('user_name').value.trim();
+    const email = document.getElementById('user_email').value.trim();
+    const phone = document.getElementById('user_phone').value.trim();
+    const errorDiv = document.getElementById('error');
+
+    errorDiv.innerText = '';
+    errorDiv.style.display = 'none';
+
+    if (name.length < 5) {
+      errorDiv.innerText = 'Error in name';
+      errorDiv.style.display = 'block';
+      return;
+    }
+    if (email.length < 5) {
+      errorDiv.innerText = 'Error in email';
+      errorDiv.style.display = 'block';
+      return;
+    }
+    if (phone.length < 5) {
+      errorDiv.innerText = 'Error in phone';
+      errorDiv.style.display = 'block';
+      return;
+    }
+
+    const data = { name, email, phone };
+
+    console.log("Дані відправляються:", data); // ✅ ТЕСТ
+    tg.sendData(JSON.stringify(data)); // ← Ось тут летить у бота
+    tg.close();
+  });
+</script>
+
   
 
 </body>
