@@ -122,37 +122,42 @@
     buy.addEventListener('click', () => {
         document.getElementById('main').style.display = "none";
         document.getElementById('form').style.display = "block";
-        document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name
+        document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
     });
 
-    order.addEventListener('click', () => {
-      document.getElementById('error').innerText = '';
-      let name = document.getElementById('user_name').value;
-      let email = document.getElementById('user_email').value;
-      let phone = document.getElementById('user_phone').value;
-      if(name.length < 5) {
-        document.getElementById('error').innerText = 'Error in name';
-        return;
-      }
-      if(email.length < 5) {
-        document.getElementById('error').innerText = 'Error in email';
-        return;
-      }
-      if(phone.length < 5) {
-        document.getElementById('error').innerText = 'Error in phone';
-        return;
-      }
+    form.addEventListener('submit', (event) => {
 
-      let data = {
-        name: name,
-        email: email,
-        phone: phone
-      }
+  const name = document.getElementById('user_name').value.trim();
+  const email = document.getElementById('user_email').value.trim();
+  const phone = document.getElementById('user_phone').value.trim();
+  const errorDiv = document.getElementById('error');
 
-      tg.sendData(JSON.stringify(data));
+  errorDiv.innerText = '';
+  errorDiv.style.display = 'none';
 
-      tg.close();
-    });
+  if (name.length < 5) {
+    errorDiv.innerText = 'Error in name';
+    errorDiv.style.display = 'block';
+    event.preventDefault(); 
+    return;
+  }
+  if (email.length < 5) {
+    errorDiv.innerText = 'Error in email';
+    errorDiv.style.display = 'block';
+    event.preventDefault(); 
+    return;
+  }
+  if (phone.length < 5) {
+    errorDiv.innerText = 'Error in phone';
+    errorDiv.style.display = 'block';
+    event.preventDefault(); 
+    return;
+  }
+
+  const data = { name, email, phone };
+  tg.sendData(JSON.stringify(data));
+  tg.close();
+});
   </script>
 
 </body>
