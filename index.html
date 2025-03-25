@@ -2,33 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WebApp Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --primary-color: #0088cc;
+      --hover-color: #0077b6;
+      --bg-color: var(--tg-theme-bg-color, #f2f2f2);
+      --card-color: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    #main {
+      background-color: var(--card-color);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
+    img {
+      width: 150px;
+      height: auto;
+      margin: 15px 0;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button, input[type="text"] {
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--hover-color);
+    }
+
+    form {
+      background-color: var(--card-color);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    #error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    display: none;
+  }
+  </style>
 </head>
 <body>
-  <h1>Test WebApp</h1>
+  <div id="main">
+    <h1>🌭 Hot Dog Shop</h1>
+    <img src="hot-dog_1f32d.png" alt="Hot Dog" />
+    <p>This is the best hot dog, buy <strong>NOW</strong>!</p>
+    <button id="buy">Buy</button>
+  </div>
 
-  <input type="text" id="name" placeholder="Name" />
-  <input type="text" id="email" placeholder="Email" />
-  <input type="text" id="phone" placeholder="Phone" />
-  <button id="send">Send</button>
+  <form id="form" style="display: none;">
+    <input type="text" placeholder="Name" id="user_name" required />
+    <input type="text" placeholder="Email" id="user_email" required />
+    <input type="text" placeholder="Phone" id="user_phone" required />
+    <div id = 'error'></div>
+    <button type="submit" id="order">Order now</button>
+  </form>
 
   <script>
-    const tg = window.Telegram.WebApp;
-
-    tg.expand(); // Розгорнути в повний розмір
-
-    document.getElementById("send").addEventListener("click", () => {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-
+    let tg = window.Telegram.WebApp;
+    let buy = document.getElementById('buy');
+    let order = document.getElementById('order');
+    let form = document.getElementById('form'); // ← додано!
+  
+    tg.expand();
+  
+    buy.addEventListener('click', () => {
+      document.getElementById('main').style.display = "none";
+      form.style.display = "block";
+      document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+    });
+  
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); 
+  
+      const name = document.getElementById('user_name').value.trim();
+      const email = document.getElementById('user_email').value.trim();
+      const phone = document.getElementById('user_phone').value.trim();
+      const errorDiv = document.getElementById('error');
+  
+      errorDiv.innerText = '';
+      errorDiv.style.display = 'none';
+  
+      if (name.length < 5) {
+        errorDiv.innerText = 'Error in name';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (email.length < 5) {
+        errorDiv.innerText = 'Error in email';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (phone.length < 5) {
+        errorDiv.innerText = 'Error in phone';
+        errorDiv.style.display = 'block';
+        return;
+      }
+  
       const data = { name, email, phone };
-
-      console.log("📤 Sending data:", data); // перевірка в консолі
-      tg.sendData(JSON.stringify(data));     // надсилаємо в бота
-      tg.close();                            // закриваємо WebApp
+      tg.sendData(JSON.stringify(data)); 
+      tg.close();
     });
   </script>
+  
+
 </body>
 </html>
