@@ -46,13 +46,11 @@
     h1 {
       margin-top: 0;
       font-size: 28px;
-      color: black;
     }
 
     p {
       font-size: 16px;
       margin-bottom: 20px;
-      color: black;
     }
 
     button, input[type="text"] {
@@ -126,7 +124,7 @@
         document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
     });
 
-    form.addEventListener('submit', (event) => {
+    order.addEventListener('submit', (event) => {
 
   const name = document.getElementById('user_name').value.trim();
   const email = document.getElementById('user_email').value.trim();
