@@ -154,7 +154,8 @@
       }
   
       const data = { name, email, phone };
-      tg.sendData(JSON.stringify(data)); // ← ось сюди надсилається
+      console.log("Дані відправляються:", data);
+      tg.sendData(JSON.stringify(data));
       tg.close();
     });
   </script>
