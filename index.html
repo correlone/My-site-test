@@ -116,48 +116,49 @@
     let tg = window.Telegram.WebApp;
     let buy = document.getElementById('buy');
     let order = document.getElementById('order');
+    let form = document.getElementById('form'); // ← додано!
+  
     tg.expand();
-
+  
     buy.addEventListener('click', () => {
-        document.getElementById('main').style.display = "none";
-        document.getElementById('form').style.display = "block";
-        document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
+      document.getElementById('main').style.display = "none";
+      form.style.display = "block";
+      document.getElementById('user_name').value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
     });
-
-    order.addEventListener('submit', (event) => {
-
-  const name = document.getElementById('user_name').value.trim();
-  const email = document.getElementById('user_email').value.trim();
-  const phone = document.getElementById('user_phone').value.trim();
-  const errorDiv = document.getElementById('error');
-
-  errorDiv.innerText = '';
-  errorDiv.style.display = 'none';
-
-  if (name.length < 5) {
-    errorDiv.innerText = 'Error in name';
-    errorDiv.style.display = 'block';
-    event.preventDefault(); 
-    return;
-  }
-  if (email.length < 5) {
-    errorDiv.innerText = 'Error in email';
-    errorDiv.style.display = 'block';
-    event.preventDefault(); 
-    return;
-  }
-  if (phone.length < 5) {
-    errorDiv.innerText = 'Error in phone';
-    errorDiv.style.display = 'block';
-    event.preventDefault(); 
-    return;
-  }
-
-  const data = { name, email, phone };
-  tg.sendData(JSON.stringify(data));
-  tg.close();
-});
+  
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // обов'язково!
+  
+      const name = document.getElementById('user_name').value.trim();
+      const email = document.getElementById('user_email').value.trim();
+      const phone = document.getElementById('user_phone').value.trim();
+      const errorDiv = document.getElementById('error');
+  
+      errorDiv.innerText = '';
+      errorDiv.style.display = 'none';
+  
+      if (name.length < 5) {
+        errorDiv.innerText = 'Error in name';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (email.length < 5) {
+        errorDiv.innerText = 'Error in email';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (phone.length < 5) {
+        errorDiv.innerText = 'Error in phone';
+        errorDiv.style.display = 'block';
+        return;
+      }
+  
+      const data = { name, email, phone };
+      tg.sendData(JSON.stringify(data)); // ← ось сюди надсилається
+      tg.close();
+    });
   </script>
+  
 
 </body>
 </html>
